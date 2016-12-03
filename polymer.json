@@ -1,0 +1,16 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/resume-app.html",
+  "fragments": [
+  ],
+  "sourceGlobs": [
+   "src/**/*",
+   "images/**/*",
+   "bower.json",
+   "resume.pdf"
+  ],
+  "includeDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ]
+}

@@ -1,0 +1,694 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="hobbies-icons.html">
+
+
+<dom-module id="resume-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+                color:  black;
+                --resume-app-color: #4285f4;
+            }
+
+            h1, h2, h3, h4 {
+                color: grey;
+                text-align: center;
+                font-weight: normal;
+            }
+
+            a {
+                text-decoration: none;
+                color: grey;
+            }
+
+            paper-slider {
+                --paper-slider-knob-color: white;
+                --paper-slider-active-color: white;
+                width: 100%;
+            }
+
+            app-header paper-icon-button {
+                --paper-icon-button-ink-color: #fff;
+            }
+
+            app-header app-toolbar {
+                background-color: var(--resume-app-color);
+                color: #fff;
+            }
+
+            #tabs {
+                @apply(--layout-self-end);
+                width: 100%;
+            }
+
+            #tabs > paper-tab {
+                margin-right: 1em;
+            }
+
+            #tabs paper-tab a {
+                /* These mixins center the link text. */
+                @apply(--layout-horizontal);
+                @apply(--layout-center-center);
+                color: #fff;
+                text-decoration: none;
+            }
+
+            #content {
+                text-align: center;
+            }
+
+            #sections[xlarge] {
+                width: 60%;
+
+            }
+
+            #sections[large] {
+                width: 65%;
+
+            }
+
+            #sections[medium] {
+                width: 75%;
+
+            }
+
+            #sections {
+                width: 90%;
+                max-width: 1280px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            #sections > h2 iron-icon {
+                padding-bottom: 4px;
+                margin-right: 15px;
+                height: 36px;
+                width: 36px;
+            }
+
+            #sections > h2 {
+                margin-top: 2em;
+                margin-bottom: 2em;
+            }
+
+            #sections h2[section="about"] {
+                display: none;
+            }
+
+            .section {
+                margin-bottom: 20px;
+            }
+
+            .text {
+                color: #4c4c4c;
+                font-weight: 300;
+            }
+
+            .date {
+                color: #c7c7c7;
+            }
+
+            #download {
+                position: fixed;
+                right: 1em;
+                bottom: 1em;
+                background: var(--resume-app-color);
+            }
+
+            #about {
+                background: #fff;
+                text-align: center;
+                margin-top: 100px;
+                padding: 15px;
+            }
+
+            #about #picture {
+                border: 5px solid #fff;
+                border-radius: 80px;
+                width: 150px;
+                height:150px;
+                margin-top: -75px;
+                background: white;
+            }
+
+            #skills {
+                text-align: initial;
+            }
+
+            #skills .skills-layout,
+            #skills .skills-layout {
+                @apply(--layout-vertical);
+                color: white;
+                background: var(--resume-app-color);
+            }
+
+            [large] #skills .skills-layout,
+            [xlarge]  #skills .skills-layout {
+                @apply(--layout-horizontal);
+            }
+
+            #skills .skills-group {
+                @apply(--layout-flex);
+                flex-basis: auto; /* Fix for Safari 9. Seems related to https://github.com/philipwalton/flexbugs/issues/132. */
+            }
+
+            #skills h3 {
+                color: white;
+            }
+
+            #skills h3, label {
+                margin-left: 16px;
+            }
+
+            .timeline {
+                position: relative;
+            }
+
+            .timeline.top-continuing {
+                margin-top: 100px;
+            }
+
+            .timeline.bottom-continuing {
+                margin-bottom: 100px;
+            }
+
+            .timeline-line {
+                background: #c7c7c7;
+                position: absolute;
+                left: 50%;
+                margin-left: -1px;
+                width: 3px;
+                height: 100%;
+            }
+
+            .timeline.bottom-continuing .timeline-line {
+                height: calc(100% + 100px);
+                -moz-box-shadow: inset 0 -70px 70px -20px #eee;
+                -webkit-box-shadow: inset 0 -70px 70px -20px #eee;
+                box-shadow: inset 0 -70px 70px -20px #eee;
+            }
+
+            .timeline.top-continuing .timeline-line {
+                height: calc(100% + 100px);
+                top: -100px;
+                -moz-box-shadow: inset 0 70px 70px -20px #eee;
+                -webkit-box-shadow: inset 0 70px 70px -20px #eee;
+                box-shadow: inset 0 70px 70px -20px #eee;
+            }
+
+            .timeline.bottom-continuing.top-continuing .timeline-line {
+                height: calc(100% + 200px);
+                top: -100px;
+                -moz-box-shadow: inset 0 -70px 70px -20px #eee, inset 0 70px 70px -20px #eee;
+                -webkit-box-shadow: inset 0 -70px 70px -20px #eee, inset 0 70px 70px -20px #eee;
+                box-shadow: inset 0 -70px 70px -20px #eee, inset 0 70px 70px -20px #eee;
+            }
+
+
+            .timeline-section {
+                position: relative;
+                clear: both;
+            }
+
+            .timeline-section .timeline-card {
+                /*float: left;*/
+                padding: 10px;
+                text-align: center;
+            }
+
+            .timeline-section.reversed .timeline-card {
+                float: right;
+            }
+
+            .timeline-section .timeline-card::before {
+
+                top: 0px;
+                left: 100%;
+                right: inherit;
+                border-color: transparent;
+
+                content: '';
+                position: absolute;
+                top: 0px;
+                height: 0;
+                width: 0;
+                border: 30px solid transparent;
+                border-left: 30px solid white;
+                border-top: 0px;
+                border-right: 0px;
+            }
+
+            .timeline-section.reversed .timeline-card::before {
+                right: 100%;
+                left: inherit;
+                border-right-color: #fff;
+                border-right: 30px solid #fff;
+                border-left: 0px;
+            }
+
+            [small] .timeline-section .timeline-card::before,
+            [medium] .timeline-section .timeline-card::before {
+                display: none;
+            }
+
+            .timeline-card {
+                width: calc(50% - 65px);
+                background: #fff;
+                margin-bottom: 25px;
+                box-sizing: border-box;
+            }
+
+            [small] .timeline-card,
+            [medium] .timeline-card {
+                width: 100%;
+            }
+
+            .timeline-card h3,
+            .timeline-card h4 {
+                margin-bottom: 0.4em;
+                margin-top: 0.4em;
+            }
+
+            .timeline-card > .company {
+                color: var(--resume-app-color);
+            }
+
+            .timeline-card > .company > iron-icon {
+                width: 1em;
+                height: 1em;
+            }
+
+            .timeline-dot {
+                width: 15px;
+                height: 15px;
+                border-radius: 8px;
+                background-color: var(--resume-app-color);;
+                position: absolute;
+                left: 50%;
+                margin-left: -7px;
+                top: -7px;
+            }
+
+            .hobby  {
+                color: #fff;
+                background: var(--resume-app-color);;
+                margin: 0.5em;
+                display: inline-block;
+                padding: 6px;
+                border-radius: 45px;
+            }
+
+            .hobby > paper-icon-button, .contact {
+                height: 64px;
+                width: 64px;
+                text-decoration: none;
+            }
+
+            .contact iron-icon {
+                margin-right: 0.4em;
+            }
+
+            .contact paper-button {
+                background: #fff;
+                color: #4c4c4c;
+            }
+        </style>
+
+        <iron-media-query query="(max-width: 600px)" query-matches="{{small}}"></iron-media-query>
+        <iron-media-query query="(min-width: 601px) and (max-width: 739px)" query-matches="{{medium}}"></iron-media-query>
+        <iron-media-query query="(min-width: 740px) and (max-width: 992px)" query-matches="{{large}}"></iron-media-query>
+        <iron-media-query query="(min-width: 993px)" query-matches="{{xlarge}}"></iron-media-query>
+
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <app-route route="{{route}}" pattern="/:section" data="{{routeData}}"></app-route>
+
+        <app-header-layout>
+
+            <app-header effects="waterfall" condenses reveals>
+                <app-toolbar>
+                    <div main-title>Florian Maffini</div>
+                </app-toolbar>
+                <app-toolbar>
+                    <paper-tabs id="tabs" selected="{{section}}" attr-for-selected="section" scrollable fit-container>
+                        <paper-tab section="about"><a href="#/about">About</a></paper-tab>
+                        <paper-tab section="skills"><a href="#/skills">Skills</a></paper-tab>
+                        <paper-tab section="experiences"><a href="#/experiences">Experiences</a></paper-tab>
+                        <paper-tab section="education"><a href="#/education">Education</a></paper-tab>
+                        <paper-tab section="hobbies"><a href="#/hobbies">Hobbies</a></paper-tab>
+                        <paper-tab section="contact"><a href="#/contact">Contact</a></paper-tab>
+                    </paper-tabs>
+                </app-toolbar>
+            </app-header>
+
+            <div id="content">
+                <div id="sections" small$="{{small}}" medium$="{{medium}}" large$="{{large}}" xlarge$="{{xlarge}}">
+
+                    <h2 section="about">
+                        <a>
+                            <iron-icon icon="work"></iron-icon>
+                            Experiences
+                        </a>
+                    </h2>
+
+                    <paper-material id="about" class="section" elevation="1">
+                        <img id="picture" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"><img>
+                        <h2>Full stack developer & conceiver</h2>
+                        <p id="description" class="text">Concerned about the future of digital technologies, but also passionate, I'm an <strong>engineer</strong> and <strong>full stack developer</strong> in the world of tomorrow, the Webification of things. Always thinking, I love to be active designing and contributing to projects with a <strong>user-centric</strong> and <strong>UX</strong> driven approach. Solving problems is my second nature, thereby I like <strong>simple solution</strong> to complex problem.</p>
+                    </paper-material>
+
+                    <h2 section="skills">
+                        <a>
+                            <iron-icon icon="settings"></iron-icon>
+                            Skills
+                        </a>
+                    </h2>
+
+                    <paper-material id="skills" class="section" elevation="1">
+                        <div class="skills-layout">
+                            <div class="skills-group">
+                                <h3>Technical</h3>
+                                <label>Javascript</label>
+                                <paper-slider value="98" on-change="skillLevelChanged"></paper-slider>
+                                <label>HTML/CSS</label>
+                                <paper-slider value="71" on-change="skillLevelChanged"></paper-slider>
+                                <label>Java</label>
+                                <paper-slider value="80" on-change="skillLevelChanged"></paper-slider>
+                                <label>Shell</label>
+                                <paper-slider value="91" on-change="skillLevelChanged"></paper-slider>
+                            </div>
+
+                            <div class="skills-group">
+                                <h3>Human</h3>
+                                <label>Team Work</label>
+                                <paper-slider value="90" on-change="skillLevelChanged"></paper-slider>
+                                <label>Teaching</label>
+                                <paper-slider value="79" on-change="skillLevelChanged"></paper-slider>
+                                <label>Leadership</label>
+                                <paper-slider value="92" on-change="skillLevelChanged"></paper-slider>
+                            </div>
+                        </div>
+                    </paper-material>
+
+                    <h2 section="experiences">
+                        <a>
+                            <iron-icon icon="work"></iron-icon>
+                            Experiences
+                        </a>
+                    </h2>
+
+                    <div class="timeline section bottom-continuing">
+                        <span class="timeline-line"></span>
+                        <div class="timeline-section">
+                            <paper-material class="timeline-card">
+                                <h3>FULL STACK DEVELOPER</h3>
+                                <h4 class="company">
+                                    <iron-icon icon="communication:business"></iron-icon>
+                                    Dassault Systèmes
+                                </h4>
+                                <span class="date">Since Sept. 2012</span>
+                                <p class="text">Built a web app platform to easily create and build websites. Users could instantiate a platform and start creating their website thanks to default layouts such as tabs or grids and out of the box navigation. We focused on server side rendering for performances and SEO purpose.</p>
+                            </paper-material>
+                            <div class="timeline-dot"></div>
+                        </div>
+                        <div class="timeline-section reversed">
+                            <paper-material class="timeline-card">
+                                <h3>DEVELOPER & ENGINEER TRAINEE</h3>
+                                <h4 class="company">
+                                    <iron-icon icon="communication:business"></iron-icon>
+                                    Alcatel Lucent
+                                </h4>
+                                <span class="date">Sept. 2009 - Sept. 2012</span>
+                                <p class="text">Developed a web app for network equipment management. Users were able to choose an equipment, enter some parameters to then generate a configuration file for the related equipment.</p>
+                            </paper-material>
+                            <div class="timeline-dot"></div>
+                        </div>
+                        <div class="timeline-section">
+                            <paper-material class="timeline-card">
+                                <h3>JUNIOR DEVELOPER</h3>
+                                <h4 class="company">
+                                    <iron-icon icon="communication:business"></iron-icon>
+                                    Sysun Technologies
+                                </h4>
+                                <span class="date">Apr. 2009 - July 2009</span>
+                                <p class="text">Built an in-house web based tool to manage clients, orders and contracts for a French telecom company.</p>
+                            </paper-material>
+                            <div class="timeline-dot"></div>
+                        </div>
+                    </div>
+
+                    <h2 section="education">
+                        <a>
+                            <iron-icon icon="social:school"></iron-icon>
+                            Education
+                        </a>
+                    </h2>
+
+                    <div class="timeline section bottom-continuing top-continuing">
+                        <span class="timeline-line"></span>
+                        <div class="timeline-section reversed">
+                            <paper-material class="timeline-card">
+                                <h3>MASTER OF ENGINEERING</h3>
+                                <h4 class="company">
+                                    <iron-icon icon="account-balance"></iron-icon>
+                                    ENSSAT
+                                </h4>
+                                <span class="date">Sept. 2009 - Sept 2012</span>
+                                <p class="text">Specialized in Computing, Multimedia and Networks</p>
+                            </paper-material>
+                            <div class="timeline-dot"></div>
+                        </div>
+                        <div class="timeline-section">
+                            <paper-material class="timeline-card">
+                                <h3>BACHELOR</h3>
+                                <h4 class="company">
+                                    <iron-icon icon="account-balance"></iron-icon>
+                                    University of Rouen
+                                </h4>
+                                <span class="date">Sept. 2007 - Sept. 2009</span>
+                                <p class="text">Specialized in Computing and Networks</p>
+                            </paper-material>
+                            <div class="timeline-dot"></div>
+                        </div>
+                    </div>
+
+                    <h2 section="hobbies">
+                        <a>
+                            <iron-icon icon="star"></iron-icon>
+                            Hobbies & Passions
+                        </a>
+                    </h2>
+
+                    <div class="section">
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:snowboard" title="Snowboard"></paper-icon-button>
+                        </paper-material>
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:moutain-bike" title="Moutain Bike"></paper-icon-button>
+                        </paper-material>
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:running" title="Running"></paper-icon-button>
+                        </paper-material>
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:climbing" title="Climbing"></paper-icon-button>
+                        </paper-material>
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:tennis" title="Tennis"></paper-icon-button>
+                        </paper-material>
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:motorbike" title="Motorbike"></paper-icon-button>
+                        </paper-material>
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:paintball" title="Paintball"></paper-icon-button>
+                        </paper-material>
+                        <paper-material class="hobby">
+                            <paper-icon-button icon="hobbies:rubiks-cube" title="Rubik's Cube" on-down="_hobbyDown" on-up="_hobbyUp"></paper-icon-button>
+                        </paper-material>
+                    </div>
+
+                    <h2 section="contact">
+                        <a>
+                            <iron-icon icon="communication:contacts"></iron-icon>
+                            Contact
+                        </a>
+                    </h2>
+
+                    <div class="section">
+                        <a href="mailto:florian.maffini@gmail.com" class="contact" tabindex="-1">
+                            <paper-button raised><iron-icon icon="communication:contact-mail" title="florian.maffini@gmail.com"></iron-icon>Mail</paper-button>
+                        </a>
+
+                        <a href="tel:+33652337652" class="contact" tabindex="-1">
+                            <paper-button raised><iron-icon icon="communication:contact-phone" title="+33652337652"></iron-icon>Tel</paper-button>
+                        </a>
+                    </div>
+                </div>
+                <a href="/resume.pdf" download="florian_maffini.pdf" target="_blank" tabindex="-1">
+                    <paper-fab id="download" icon="file-download" title="Download resume"></paper-fab>
+                </a>
+            </div>
+
+        </app-header-layout>
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'resume-app',
+
+            ready: function () {
+                // Keep sliders.
+                this.skillSliders = Polymer.dom(this.root).querySelectorAll('paper-slider');
+                this.skillLevels = [];
+                this.skillSliders.forEach(function (slider, index) {
+                    this.skillLevels[index] = slider.value;
+                }, this);
+
+                // Keep section headers.
+                this.headers = Polymer.dom(this.root).querySelectorAll('h2[section]');
+
+                // Set a random color for the theme.
+                this.customStyle['--resume-app-color'] = this.colors[Math.floor(Math.random() * this.colors.length)];
+                this.updateStyles();
+
+                // Listen scroll event.
+                window.addEventListener('scroll', this.spyScroll.bind(this));
+            },
+
+            properties: {
+                colors: {
+                    type: Array,
+                    readOnly: true,
+                    value: function () {
+                        return [
+                            'rgb(255, 107, 107)', // RED
+                            //'rgb(240, 101, 149)', // PINK
+                            'rgb(204, 93, 232)',  // GRAPE
+                            'rgb(132, 94, 247)',  // VIOLET
+                            'rgb(92, 124, 250)',  // INDIGO
+                            'rgb(50, 154, 240)',  // BLUE
+                            'rgb(34, 184, 207)',  // CYAN
+                            'rgb(32, 201, 151)',  // TEAL
+                            'rgb(81, 207, 102)',  // GREEN
+                            'rgb(148, 216, 45)',  // LIME
+                            //'rgb(252, 196, 25)',  // YELLOW
+                            'rgb(255, 146, 43)',  // ORANGE
+                        ];
+                    }
+                }
+            },
+
+            observers: [
+                'routeChanged(route)'
+            ],
+
+            routeChanged: function (route) {
+                if (this.routeData && this.routeData.section) {
+                    var title = Polymer.dom(this.root).querySelector('h2[section=' + this.routeData.section + ']');
+                    this.animateScroll(document.body.scrollTop, title.offsetTop, 500);
+                } else {
+                    this.section = 'about';
+                    this.set('route.path', '/about');
+                }
+            },
+
+            skillLevelChanged: function (e) {
+                var slider = Polymer.dom(e).rootTarget,
+                    index = this.skillSliders.indexOf(slider),
+                    level =  this.skillLevels[index];
+
+                if (slider.value < level) {
+
+                    var rest = level - slider.value,
+                        random = slider;
+
+                    while (rest > 0 && random !== undefined) {
+                        random = this.randomSlider(slider);
+
+                        if (random) {
+                            var oldValue = random.value;
+                            random.value = Math.min(random.value + rest, 100);
+                            this.skillLevels[this.skillSliders.indexOf(random)] = random.value;
+                            rest -= (random.value - oldValue);
+                        }
+                    }
+                }
+                this.skillLevels[index] = slider.value;
+            },
+
+            animateScroll: function(from, to, time) {
+                var start = new Date().getTime(),
+                    that = this,
+                    body = document.body,
+                    timer = setInterval(function() {
+                        var step = Math.min(1, (new Date().getTime() - start)/time);
+                        that.animating = true;
+                        body.scrollTop = (from + step * (to - from));
+                        if (step === 1) {
+                            that.animating = false;
+                            clearInterval(timer);
+                        }
+                    }, 25);
+                body.scrollTop = from;
+            },
+
+            spyScroll: function (e) {
+                var current;
+
+                this.headers.forEach(function (header) {
+                    current = header.offsetTop < (document.body.scrollTop + window.innerHeight/2) ? header : current;
+                });
+
+                if (current && current.getAttribute('section') !== this.$.tabs.selected  && !this.animating) {
+                    var section = current.getAttribute('section');
+                    this.set('route.path', '/' + section);
+                    this.$.tabs.selected = section;
+                }
+            },
+
+            randomSlider: function (except) {
+                var sliders = Polymer.dom(this.root).querySelectorAll('paper-slider:not([value="100"])'),
+                    found =  sliders.length && sliders[Math.floor(Math.random() * sliders.length)];
+
+                if (sliders.indexOf(except) !== -1 && sliders.length === 1) {
+                    return undefined;
+                } else if (found === except) {
+                    return this.randomSlider(except);
+                } else {
+                    return found;
+                }
+
+            },
+
+            _hobbyDown: function (e) {
+                var that = this;
+                this._hobbyTimeout = setTimeout(function () {
+                    that.toggleClass('colored', true, Polymer.dom(Polymer.dom(e).rootTarget.root).querySelector('svg'));
+                }, 3000);
+            },
+
+            _hobbyUp: function (e) {
+                clearTimeout(this._hobbyTimeout);
+            }
+
+        });
+    </script>
+</dom-module>
