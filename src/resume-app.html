@@ -565,8 +565,13 @@
                 this.headers = Polymer.dom(this.root).querySelectorAll('h2[section]');
 
                 // Set a random color for the theme.
-                this.customStyle['--resume-app-color'] = this.colors[Math.floor(Math.random() * this.colors.length)];
+                var color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                this.customStyle['--resume-app-color'] = color;
                 this.updateStyles();
+
+                // Dynamic theme color
+                document.head.querySelector('meta[name="theme-color"]').setAttribute('content', color);
+                document.head.querySelector('meta[name="msapplication-TileColor"]').setAttribute('content', color);
 
                 // Listen scroll event.
                 window.addEventListener('scroll', this.spyScroll.bind(this));
@@ -578,18 +583,18 @@
                     readOnly: true,
                     value: function () {
                         return [
-                            'rgb(255, 107, 107)', // RED
-                            //'rgb(240, 101, 149)', // PINK
-                            'rgb(204, 93, 232)',  // GRAPE
-                            'rgb(132, 94, 247)',  // VIOLET
-                            'rgb(92, 124, 250)',  // INDIGO
-                            'rgb(50, 154, 240)',  // BLUE
-                            'rgb(34, 184, 207)',  // CYAN
-                            'rgb(32, 201, 151)',  // TEAL
-                            'rgb(81, 207, 102)',  // GREEN
-                            'rgb(148, 216, 45)',  // LIME
-                            //'rgb(252, 196, 25)',  // YELLOW
-                            'rgb(255, 146, 43)',  // ORANGE
+                            '#FF6B6B', // RED
+                            //'#F06595', // PINK
+                            '#CC5DE8',  // GRAPE
+                            '#845EF7',  // VIOLET
+                            '#5C7CFA',  // INDIGO
+                            '#329AF0',  // BLUE
+                            '#22B8CF',  // CYAN
+                            '#20C997',  // TEAL
+                            '#51CF66',  // GREEN
+                            '#94D82D',  // LIME
+                            //'#FCC419',  // YELLOW
+                            '#FF922B',  // ORANGE
                         ];
                     }
                 }
