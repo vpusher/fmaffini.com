@@ -317,19 +317,18 @@
                 border-radius: 45px;
             }
 
-            .hobby > paper-icon-button, .contact {
+            .hobby > paper-icon-button {
                 height: 64px;
                 width: 64px;
                 text-decoration: none;
             }
 
-            .contact iron-icon {
-                margin-right: 0.4em;
-            }
-
-            .contact paper-button {
-                background: #fff;
-                color: #4c4c4c;
+            .contact > paper-icon-button {
+                width: 80px;
+                height: 80px;
+                margin-left: 0.5em;
+                margin-right: 0.5em;
+                color: #b7b7b7;
             }
         </style>
 
@@ -533,11 +532,11 @@
 
                     <div class="section">
                         <a href="mailto:florian.maffini@gmail.com" class="contact" tabindex="-1">
-                            <paper-button raised><iron-icon icon="communication:contact-mail" title="florian.maffini@gmail.com"></iron-icon>Mail</paper-button>
+                            <paper-icon-button icon="communication:contact-mail" title="E-Mail"></paper-icon-button>
                         </a>
 
                         <a href="tel:+33652337652" class="contact" tabindex="-1">
-                            <paper-button raised><iron-icon icon="communication:contact-phone" title="+33652337652"></iron-icon>Tel</paper-button>
+                            <paper-icon-button icon="communication:contact-phone" title="Mobile phone"></paper-icon-button>
                         </a>
                     </div>
                 </div>
