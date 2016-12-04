@@ -1,6 +1,6 @@
-# \<resume\>
+# \<resume-app\>
 
-about me
+An app about me and my resume.
 
 ## Install the Polymer-CLI
 

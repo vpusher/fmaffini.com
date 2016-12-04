@@ -1,6 +1,6 @@
 {
-  "name": "resume",
-  "description": "about me",
+  "name": "resume-app",
+  "description": "An app about me and my resume",
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",

@@ -1,10 +1,10 @@
 {
   "name": "Florian Maffini",
-  "short_name": "Florian Maffini",
+  "short_name": "FM",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#3f51b5",
-  "background_color": "#3f51b5",
+  "theme_color": "#ffffff",
+  "background_color": "#eeeeee",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",
