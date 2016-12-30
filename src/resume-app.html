@@ -150,6 +150,19 @@
                 background: white;
             }
 
+            #about > h3 {
+                color: #c7c7c7;
+                font-weight: 200;
+            }
+
+            #about > h3 > span:first-child {
+                padding-left: 4em;
+            }
+
+            #about > h3 > span {
+                display: inline-block;
+            }
+
             #skills {
                 text-align: initial;
             }
@@ -301,7 +314,7 @@
                 width: 15px;
                 height: 15px;
                 border-radius: 8px;
-                background-color: var(--resume-app-color);;
+                background-color: var(--resume-app-color);
                 position: absolute;
                 left: 50%;
                 margin-left: -7px;
@@ -310,7 +323,7 @@
 
             .hobby  {
                 color: #fff;
-                background: var(--resume-app-color);;
+                background: var(--resume-app-color);
                 margin: 0.5em;
                 display: inline-block;
                 padding: 6px;
@@ -329,6 +342,10 @@
                 margin-left: 0.5em;
                 margin-right: 0.5em;
                 color: #b7b7b7;
+            }
+
+            .invisible-ink {
+                color: #fff;
             }
         </style>
 
@@ -370,7 +387,8 @@
 
                     <paper-material id="about" class="section" elevation="1">
                         <img id="picture" src="../images/profile.jpg"><img>
-                        <h2>Happy full stack developer &amp; conceiver</h2>
+                        <h2>Happy full stack developer & conceiver</span></h2>
+                        <h3><span class="invisible-ink">half crazy,&nbsp;</span><span>half architect, half designer</span><span class="invisible-ink">&nbsp;= 150% operational</span></h3>
                         <p id="description" class="text">Concerned about the future of digital technologies, but also passionate, I'm an <strong>engineer</strong> and <strong>full stack developer</strong> in the world of tomorrow, the Webification of things. Always thinking, I love to be active designing and contributing to projects with a <strong>user-centric</strong> and <strong>UX</strong> driven approach. Solving problems is my second nature, thereby I like <strong>simple solution</strong> to complex problem.</p>
                     </paper-material>
 
@@ -385,14 +403,14 @@
                         <div class="skills-layout">
                             <div class="skills-group">
                                 <h3>Technical</h3>
-                                <label>Javascript</label>
+                                <label title="Pro Vanilla with ES5 & 6, Web Components, Polymer, Angular, Mootools, Underscore, Backbone, jQuery, Babel, SystemJS, RequireJS">Web Frontend</label>
                                 <paper-slider value="98" on-change="skillLevelChanged"></paper-slider>
-                                <label>HTML/CSS</label>
-                                <paper-slider value="75" on-change="skillLevelChanged"></paper-slider>
-                                <label>Java</label>
-                                <paper-slider value="80" on-change="skillLevelChanged"></paper-slider>
-                                <label>Shell</label>
+                                <label title="J2EE, Spring, Zend, Node, SQL, Neo4j, MongoDB">Web Backend</label>
+                                <paper-slider value="85" on-change="skillLevelChanged"></paper-slider>
+                                <label title="Shell for Unix and macOS, Docker, Swarm, NGinx, Gitlab, Jenkins">Sys. Admin</label>
                                 <paper-slider value="91" on-change="skillLevelChanged"></paper-slider>
+                                <label title="Responsive web, progressive app, Swift for iOS, Java for Android">Mobile</label>
+                                <paper-slider value="79" on-change="skillLevelChanged"></paper-slider>
                             </div>
 
                             <div class="skills-group">
@@ -577,6 +595,10 @@
                 window.addEventListener('scroll', this.spyScroll.bind(this));
             },
 
+            attached: function () {
+                this.isAttached = true;
+            },
+
             properties: {
                 colors: {
                     type: Array,
@@ -605,9 +627,9 @@
             ],
 
             routeChanged: function (route) {
-                if (this.routeData && this.routeData.section) {
+                if (this.routeData && this.routeData.section && this.isAttached) {
                     var title = Polymer.dom(this.root).querySelector('h2[section=' + this.routeData.section + ']');
-                    this.animateScroll(document.body.scrollTop, title.offsetTop, 500);
+                    (document.body.scrollTop !== title.offsetTop) && this.animateScroll(document.body.scrollTop, title.offsetTop, 500);
                 } else {
                     this.section = 'about';
                     this.set('route.path', '/about');
