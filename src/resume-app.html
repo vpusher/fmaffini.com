@@ -336,12 +336,8 @@
                 text-decoration: none;
             }
 
-            .contact > paper-icon-button {
-                width: 80px;
-                height: 80px;
-                margin-left: 0.5em;
-                margin-right: 0.5em;
-                color: #b7b7b7;
+            .contact {
+                color: var(--resume-app-color);
             }
 
             .invisible-ink {
@@ -550,11 +546,11 @@
 
                     <div class="section">
                         <a href="mailto:florian.maffini@gmail.com" class="contact" tabindex="-1">
-                            <paper-icon-button icon="communication:contact-mail" title="E-Mail"></paper-icon-button>
+                            <paper-button><iron-icon icon="mail"></iron-icon>&nbsp;E-Mail</paper-button>
                         </a>
 
                         <a href="tel:+33652337652" class="contact" tabindex="-1">
-                            <paper-icon-button icon="communication:contact-phone" title="Mobile phone"></paper-icon-button>
+                            <paper-button><iron-icon icon="communication:phone"></iron-icon>&nbsp;Mobile</paper-button>
                         </a>
                     </div>
                 </div>
