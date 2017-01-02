@@ -37,7 +37,13 @@
 
             a {
                 text-decoration: none;
-                color: grey;
+                color: var(--resume-app-color);
+            }
+
+            hr {
+                height: 0px;
+                border: 0px;
+                border-top: 1px solid #ececec;
             }
 
             paper-slider {
@@ -119,12 +125,13 @@
             }
 
             .text {
-                color: #4c4c4c;
+                color: #777777;
                 font-weight: 300;
             }
 
             .date {
                 color: #c7c7c7;
+                font-weight: 300;
             }
 
             #download {
@@ -279,7 +286,8 @@
             }
 
             [small] .timeline-section .timeline-card::before,
-            [medium] .timeline-section .timeline-card::before {
+            [medium] .timeline-section .timeline-card::before,
+            [large] .timeline-section .timeline-card::before {
                 display: none;
             }
 
@@ -291,7 +299,8 @@
             }
 
             [small] .timeline-card,
-            [medium] .timeline-card {
+            [medium] .timeline-card,
+            [large] .timeline-card {
                 width: 100%;
             }
 
@@ -375,10 +384,8 @@
                 <div id="sections" small$="{{small}}" medium$="{{medium}}" large$="{{large}}" xlarge$="{{xlarge}}">
 
                     <h2 section="about">
-                        <a>
-                            <iron-icon icon="work"></iron-icon>
-                            Experiences
-                        </a>
+                        <iron-icon icon="work"></iron-icon>
+                        Experiences
                     </h2>
 
                     <paper-material id="about" class="section" elevation="1">
@@ -389,10 +396,8 @@
                     </paper-material>
 
                     <h2 section="skills">
-                        <a>
-                            <iron-icon icon="settings"></iron-icon>
-                            Skills
-                        </a>
+                        <iron-icon icon="settings"></iron-icon>
+                        Skills
                     </h2>
 
                     <paper-material id="skills" class="section" elevation="1">
@@ -403,7 +408,7 @@
                                 <paper-slider value="98" on-change="skillLevelChanged"></paper-slider>
                                 <label title="J2EE, Spring, Zend, Node, SQL, Neo4j, MongoDB">Back-end web</label>
                                 <paper-slider value="85" on-change="skillLevelChanged"></paper-slider>
-                                <label title="Shell for Unix and macOS, Docker, Swarm, NGinx, Gitlab, Jenkins">Sys. Admin</label>
+                                <label title="Shell for Unix and macOS, Docker, Registry, Swarm, NGinx, Gitlab, Jenkins">Sys. Admin</label>
                                 <paper-slider value="95" on-change="skillLevelChanged"></paper-slider>
                                 <label title="Responsive web, progressive app, Swift for iOS, Java for Android">Mobile</label>
                                 <paper-slider value="81" on-change="skillLevelChanged"></paper-slider>
@@ -424,10 +429,8 @@
                     </paper-material>
 
                     <h2 section="experiences">
-                        <a>
-                            <iron-icon icon="work"></iron-icon>
-                            Experiences
-                        </a>
+                        <iron-icon icon="work"></iron-icon>
+                        Experiences
                     </h2>
 
                     <div class="timeline section bottom-continuing">
@@ -440,7 +443,13 @@
                                     Dassault Systèmes
                                 </h4>
                                 <span class="date">Since Sept. 2012</span>
-                                <p class="text">Built a web app platform to easily create and build websites. Users could instantiate a platform and start creating their website thanks to default layouts such as tabs or grids and out of the box navigation. We focused on server side rendering for performances and SEO purpose.</p>
+                                <p class="text">Built a web app platform to easily create and build websites. Users could instantiate a platform and start creating their website thanks to default layouts such as tabs or grids and out of the box navigation offered through <a href="http://webcomponents.org/">Web Components</a>. I focused on server side rendering for performances and SEO purpose thanks to <a href="https://spring.io/">Spring</a>.</p>
+                                <hr/>
+                                <p class="text">Established a software factory and deployment pipelines for the above-mentioned platform. From push and build on <a href="https://gitlab.com">Gitlab</a> and <a href="https://jenkins.io/">Jenkins</a> to staging environments deployed thanks to a <a href="https://www.docker.com/">Docker</a> infrastructure. This was the cornerstone to ensure code maturity and a proper continuous integration.</p>
+                                <hr/>
+                                <p class="text">Built a dashboarding web app based on the <a href="https://www.w3.org/TR/widgets/">Widget</a> specification and <a href="http://backbonejs.org/">BackboneJS</a>. Developers were able to share their own Widget to make it available and runnable in the dashboard. Therefore, I worked on Javascript runtime isolation within <a href="https://www.w3.org/TR/1999/REC-html401-19991224/present/frames.html">frames</a> and third party code execution security.</p>
+                                <hr/>
+                                <p class="text">Designed core and UI frameworks with <a href="http://vanilla-js.com/">Vanilla JS</a> and <a href="http://sass-lang.com/">SASS</a>. I was in charge of providing core components and UI controls to ease development and unify the visual experience within all of Dassault Systèmes web apps.</p>
                             </paper-material>
                             <div class="timeline-dot"></div>
                         </div>
@@ -452,7 +461,10 @@
                                     Alcatel Lucent
                                 </h4>
                                 <span class="date">Sept. 2009 - Sept. 2012</span>
-                                <p class="text">Developed a web app for network equipment management. Users were able to choose an equipment, enter some parameters to then generate a configuration file for the related equipment.</p>
+                                <p class="text">Developed a web app for managing network equipments based on <a href="https://www.microsoft.com/net">Zend</a> framework. Users were able to choose an equipment and enter some parameters to easily generate their configuration file.</p>
+                                <hr>
+                                <p class="text">Developed a <a href="https://www.microsoft.com/net">.NET</a> desktop application for network architecture design. This software provided users with a way to design a network adding devices to then simulate its behavior.</p>
+
                             </paper-material>
                             <div class="timeline-dot"></div>
                         </div>
@@ -464,17 +476,15 @@
                                     Sysun Technologies
                                 </h4>
                                 <span class="date">Apr. 2009 - July 2009</span>
-                                <p class="text">Built an in-house web based tool to manage clients, orders and contracts for a French telecom company.</p>
+                                <p class="text">Built an in-house web based tool powered by <a href="https://framework.zend.com/">Zend</a> to manage clients, orders and contracts for a French telecom company.</p>
                             </paper-material>
                             <div class="timeline-dot"></div>
                         </div>
                     </div>
 
                     <h2 section="education">
-                        <a>
-                            <iron-icon icon="social:school"></iron-icon>
-                            Education
-                        </a>
+                        <iron-icon icon="social:school"></iron-icon>
+                        Education
                     </h2>
 
                     <div class="timeline section bottom-continuing top-continuing">
@@ -486,7 +496,7 @@
                                     <iron-icon icon="account-balance"></iron-icon>
                                     ENSSAT
                                 </h4>
-                                <span class="date">Sept. 2009 - Sept 2012</span>
+                                <span class="date">Sept. 2009 - Sept. 2012</span>
                                 <p class="text">Specialized in Computing, Multimedia and Networks</p>
                             </paper-material>
                             <div class="timeline-dot"></div>
@@ -506,10 +516,8 @@
                     </div>
 
                     <h2 section="hobbies">
-                        <a>
-                            <iron-icon icon="star"></iron-icon>
-                            Hobbies & Passions
-                        </a>
+                        <iron-icon icon="star"></iron-icon>
+                        Hobbies & Passions
                     </h2>
 
                     <div class="section">
@@ -540,10 +548,8 @@
                     </div>
 
                     <h2 section="contact">
-                        <a>
-                            <iron-icon icon="communication:contacts"></iron-icon>
-                            Contact
-                        </a>
+                        <iron-icon icon="communication:contacts"></iron-icon>
+                        Contact
                     </h2>
 
                     <div class="section">
